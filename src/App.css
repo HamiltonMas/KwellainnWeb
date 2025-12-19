@@ -1,0 +1,201 @@
+/* Responsive base styles */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* Responsive logo */
+.logo {
+  height: auto;
+  max-height: 6em;
+  padding: 1em;
+  will-change: filter;
+  transition: filter 300ms;
+  width: auto;
+  max-width: 100%;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Responsive card */
+.card {
+  padding: 1.5em;
+  margin: 1rem auto;
+  width: calc(100% - 2rem);
+  max-width: 800px;
+}
+
+.read-the-docs {
+  color: #888;
+  margin: 1rem 0;
+}
+
+/* Tablet styles (768px and below) */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  .logo {
+    height: auto;
+    max-height: 4em;
+    padding: 0.75em;
+  }
+  
+  .card {
+    padding: 1em;
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
+  }
+  
+  .read-the-docs {
+    font-size: 0.9rem;
+    margin: 0.75rem 0;
+  }
+}
+
+/* Mobile styles (480px and below) */
+@media (max-width: 480px) {
+  #root {
+    padding: 0.75rem;
+  }
+  
+  .logo {
+    max-height: 3em;
+    padding: 0.5em;
+  }
+  
+  .card {
+    padding: 0.75em;
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+  
+  .read-the-docs {
+    font-size: 0.8rem;
+    margin: 0.5rem 0;
+    padding: 0 0.5rem;
+  }
+}
+
+/* Small mobile styles (320px and below) */
+@media (max-width: 320px) {
+  #root {
+    padding: 0.5rem;
+  }
+  
+  .logo {
+    max-height: 2.5em;
+    padding: 0.25em;
+  }
+  
+  .card {
+    padding: 0.5em;
+  }
+  
+  .read-the-docs {
+    font-size: 0.75rem;
+    margin: 0.25rem 0;
+  }
+}
+
+/* Large screen styles (1440px and above) */
+@media (min-width: 1440px) {
+  #root {
+    max-width: 1400px;
+    padding: 2.5rem;
+  }
+  
+  .logo {
+    max-height: 8em;
+    padding: 2em;
+  }
+  
+  .card {
+    padding: 2.5em;
+    max-width: 1000px;
+  }
+  
+  .read-the-docs {
+    font-size: 1.1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  #root {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .logo {
+    max-height: 4em;
+    filter: none !important;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+  
+  a:nth-of-type(2) .logo {
+    animation: none !important;
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    transition: none;
+  }
+  
+  a:nth-of-type(2) .logo {
+    animation: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .read-the-docs {
+    color: #aaa;
+  }
+  
+  .card {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .read-the-docs {
+    color: #000;
+    font-weight: bold;
+  }
+}
