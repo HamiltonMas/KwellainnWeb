@@ -24,6 +24,18 @@ const Contact = () => {
     message: ''
   });
 
+  // Coordinates for Louis Trichardt (Makhado), Limpopo
+  const location = {
+    name: 'Kwela Inn Resort',
+    address: 'Hospitality Street, Louis Trichardt, Limpopo, South Africa',
+    lat: -23.0451,
+    lng: 29.9054,
+    zoom: 14
+  };
+
+  // Google Maps embed URL
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3667.698608989227!2d29.9032333!3d-23.0451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ec6c7f1cf2b9d5b%3A0x9e9bc5e0c6e5a5b5!2sLouis%20Trichardt%2C%20Limpopo!5e0!3m2!1sen!2sza!4v1710256000000!5m2!1sen!2sza`;
+
   // Check screen size on mount and resize
   useEffect(() => {
     const checkScreenSize = () => {
@@ -52,7 +64,7 @@ const Contact = () => {
     {
       icon: <FaMapMarkerAlt />,
       title: 'Location',
-      details: ['Kwela Inn Resort', 'Hospitality Street', 'Limpopo, South Africa'],
+      details: ['Kwela Inn Resort', 'Hospitality Street', 'Louis Trichardt, Limpopo'],
       description: 'Easy access from major highways'
     },
     {
@@ -138,6 +150,11 @@ const Contact = () => {
         });
       }, 5000);
     }, 1500);
+  };
+
+  const handleGetDirections = () => {
+    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
+    window.open(directionsUrl, '_blank');
   };
 
   return (
@@ -229,34 +246,66 @@ const Contact = () => {
 
             {/* Map Section */}
             <div style={styles.mapSection}>
-              <h3 style={{
-                ...styles.mapTitle,
-                fontSize: isMobile ? '1.2rem' : isTablet ? '1.3rem' : '1.5rem',
-              }}>
-                Find Us
-              </h3>
+              <div style={styles.mapHeader}>
+                <h3 style={{
+                  ...styles.mapTitle,
+                  fontSize: isMobile ? '1.2rem' : isTablet ? '1.3rem' : '1.5rem',
+                }}>
+                  Find Us
+                </h3>
+                <button 
+                  onClick={handleGetDirections}
+                  style={styles.directionsButton}
+                >
+                  Get Directions
+                </button>
+              </div>
+              
               <div style={{
-                ...styles.mapPlaceholder,
-                height: isMobile ? '180px' : isTablet ? '200px' : '250px',
+                ...styles.mapContainer,
+                height: isMobile ? '250px' : isTablet ? '300px' : '350px',
               }}>
-                <div style={styles.mapContent}>
-                  <FaMapMarkerAlt style={{
-                    ...styles.mapIcon,
-                    fontSize: isMobile ? '2.5rem' : isTablet ? '2.8rem' : '3rem',
-                  }} />
-                  <p style={{
-                    ...styles.mapText,
-                    fontSize: isMobile ? '0.95rem' : isTablet ? '1rem' : '1.1rem',
-                  }}>
-                    Kwela Inn Resort Location Map
-                  </p>
-                  <p style={{
-                    ...styles.mapNote,
-                    fontSize: isMobile ? '0.8rem' : isTablet ? '0.85rem' : '0.9rem',
-                  }}>
-                    📍 Limpopo, South Africa
-                  </p>
+                <iframe
+                  src={mapUrl}
+                  style={styles.mapIframe}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Kwela Inn Resort Location Map"
+                />
+                
+                {/* Map Overlay with Info */}
+                <div style={styles.mapOverlay}>
+                  <div style={styles.mapInfoCard}>
+                    <FaMapMarkerAlt style={styles.mapPinIcon} />
+                    <div style={styles.mapInfoContent}>
+                      <h4 style={styles.mapInfoTitle}>{location.name}</h4>
+                      <p style={styles.mapInfoAddress}>{location.address}</p>
+                      <p style={styles.mapInfoCoordinates}>
+                        📍 {location.lat.toFixed(4)}°S, {location.lng.toFixed(4)}°E
+                      </p>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              
+              {/* Location Details */}
+              <div style={styles.locationDetails}>
+                <h4 style={styles.detailsTitle}>How to Reach Us</h4>
+                <ul style={styles.detailsList}>
+                  <li style={styles.detailsItem}>
+                    <strong>From Johannesburg:</strong> Take N1 North, follow signs for Polokwane, continue to Louis Trichardt
+                  </li>
+                  <li style={styles.detailsItem}>
+                    <strong>From Polokwane:</strong> Take R521 North towards Louis Trichardt
+                  </li>
+                  <li style={styles.detailsItem}>
+                    <strong>Nearest Airport:</strong> Polokwane International Airport (approx. 2 hours drive)
+                  </li>
+                  <li style={styles.detailsItem}>
+                    <strong>Public Transport:</strong> Regular buses and shuttles available from major cities
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -671,7 +720,7 @@ const styles = {
   container: {
     backgroundColor: '#f8fafc',
     minHeight: '100vh',
-    paddingTop: '80px', // Add padding to prevent overlap with fixed header
+    paddingTop: '80px',
     '@media (max-width: 768px)': {
       paddingTop: '70px',
     },
@@ -787,31 +836,130 @@ const styles = {
   mapSection: {
     marginTop: '30px',
   },
+  mapHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '15px',
+    flexWrap: 'wrap',
+    gap: '10px',
+  },
   mapTitle: {
     color: '#1e293b',
-    marginBottom: '15px',
     fontWeight: '600',
+    margin: 0,
   },
-  mapPlaceholder: {
-    backgroundColor: '#e2e8f0',
-    borderRadius: '10px',
+  directionsButton: {
+    padding: '8px 16px',
+    backgroundColor: '#0d9488',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '0.9rem',
+    fontWeight: '500',
+    cursor: 'pointer',
+    transition: 'all 0.3s',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: '8px',
+    '&:hover': {
+      backgroundColor: '#0f766e',
+      transform: 'translateY(-2px)',
+    },
+    '@media (max-width: 480px)': {
+      fontSize: '0.85rem',
+      padding: '6px 12px',
+    },
+  },
+  mapContainer: {
+    position: 'relative',
+    borderRadius: '10px',
+    overflow: 'hidden',
+    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+    marginBottom: '20px',
+  },
+  mapIframe: {
+    width: '100%',
+    height: '100%',
+    border: 'none',
+    display: 'block',
+  },
+  mapOverlay: {
+    position: 'absolute',
+    top: '15px',
+    left: '15px',
+    right: '15px',
+    pointerEvents: 'none',
+  },
+  mapInfoCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: '8px',
+    padding: '15px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    maxWidth: '300px',
+    backdropFilter: 'blur(5px)',
+    pointerEvents: 'auto',
+  },
+  mapPinIcon: {
+    color: '#ef4444',
+    fontSize: '1.8rem',
+    flexShrink: 0,
+  },
+  mapInfoContent: {
+    flex: 1,
+  },
+  mapInfoTitle: {
+    color: '#1e293b',
+    fontSize: '1rem',
+    fontWeight: '600',
+    margin: '0 0 5px 0',
+  },
+  mapInfoAddress: {
+    color: '#475569',
+    fontSize: '0.85rem',
+    margin: '0 0 5px 0',
+    lineHeight: '1.4',
+  },
+  mapInfoCoordinates: {
     color: '#64748b',
+    fontSize: '0.8rem',
+    margin: 0,
   },
-  mapContent: {
-    textAlign: 'center',
+  locationDetails: {
+    backgroundColor: 'white',
+    borderRadius: '10px',
+    padding: '20px',
+    boxShadow: '0 3px 10px rgba(0, 0, 0, 0.08)',
   },
-  mapIcon: {
+  detailsTitle: {
+    color: '#1e293b',
+    fontSize: '1.1rem',
+    fontWeight: '600',
     marginBottom: '15px',
-    color: '#94a3b8',
   },
-  mapText: {
-    marginBottom: '5px',
+  detailsList: {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
-  mapNote: {
-    opacity: '0.7',
+  detailsItem: {
+    color: '#475569',
+    fontSize: '0.9rem',
+    lineHeight: '1.5',
+    paddingLeft: '20px',
+    position: 'relative',
+    '&:before': {
+      content: '"📍"',
+      position: 'absolute',
+      left: '0',
+      fontSize: '0.9rem',
+    },
   },
   
   // Form Section
